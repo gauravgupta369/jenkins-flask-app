@@ -1,9 +1,8 @@
 pipeline {
     agent { dockerfile true }
     stage('test') {
-      steps {
-        sh 'python test.py'
-      }
+        steps {
+            sh 'python test.py'
+        }
     }
-  }
 }
