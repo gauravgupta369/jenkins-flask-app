@@ -1,0 +1,3 @@
+docker image build -t python-flask-app .
+
+docker run -it --name flask_app -p 4001:5000 -v /var/www/html/devops/flask_app:/app python-flask-app
