@@ -114,7 +114,8 @@ agent {
 
 asdfghjkasdfgasasdfghj
 
-ENKINS_URL/job/flask-app/build?token=TOKEN_NAME or /buildWithParameters?token=TOKEN_NAME
+http://127.0.0.1/job/flask-app/build?token=asdfghjkasdfgasasdfghj
+http://127.0.0.1/job/flask-app/buildWithParameters?token=asdfghjkasdfgasasdfghj
 
 backend_auth
 branch
