@@ -10,7 +10,7 @@ pipeline {
             image 'flask-app'
             args "-e BACKEND_AUTH_USR:$BACKEND_AUTH"
             args "-e BACKEND_AUTH_PSW:$BACKEND_AUTH"
-            args "-e branch: ${params.branch}"
+            args "-e branch:${params.branch}"
             // registryUrl 'https://myregistry.com/'
             // registryCredentialsId 'myPredefinedCredentialsInJenkins'
         }
