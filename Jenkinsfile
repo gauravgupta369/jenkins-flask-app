@@ -5,13 +5,12 @@ pipeline {
     agent {
         docker {
             image 'flask-app'
-            args "-e BACKEND_AUTH_USR:$BACKEND_AUTH_USR"
-            args "-e BACKEND_AUTH_PSW:$BACKEND_AUTH_PSW"
+            args "-e BACKEND_AUTH_USR:$BACKEND_AUTH"
+            args "-e BACKEND_AUTH_PSW:$BACKEND_AUTH"
             // registryUrl 'https://myregistry.com/'
             // registryCredentialsId 'myPredefinedCredentialsInJenkins'
         }
     }
-
     stages {
         stage('test') {
             steps {
