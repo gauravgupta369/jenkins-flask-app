@@ -1,3 +1,120 @@
 docker image build -t python-flask-app .
 
 docker run -it --name flask_app -p 4001:5000 -v /var/www/html/devops/flask_app:/app python-flask-app
+
+
+Main requirements:
+1. docker imgae with pre requirements installed service wise
+2. deploy code region wise/in fail message
+
+To be Learned:
+1. environment consumption and on the fly file creation(local.py)
+2. pipeline syntax/code from documentaion
+3. prehooks and triggers
+4. access policies
+5. docker destroy after build
+6. auto session clear after build
+
+
+Main1: system of registery repo + local docker prebuild image container.
+Main2: supply params + env to the code.
+
+
+docker network create jenkins
+docker volume create jenkins-docker-certs
+docker volume create jenkins-data
+
+
+
+docker container run --name jenkins-docker --rm --detach \
+  --privileged --network jenkins --network-alias docker \
+  --env DOCKER_TLS_CERTDIR=/certs \
+  --volume jenkins-docker-certs:/certs/client \
+  --volume jenkins-data:/var/jenkins_home \
+  --volume /Users/gauravgupta369/Public/gaurav/myprojects/jenkins:/home docker:dind
+
+
+docker container run --name jenkins-app --rm --detach \
+  --network jenkins --env DOCKER_HOST=tcp://docker:2376 \
+  --env DOCKER_CERT_PATH=/certs/client --env DOCKER_TLS_VERIFY=1 \
+  --volume jenkins-data:/var/jenkins_home \
+  --volume jenkins-docker-certs:/certs/client:ro \
+  --volume /Users/gauravgupta369/Public/gaurav/myprojects/jenkins:/home \
+  --publish 80:8080 jenkinsci/blueocean
+
+------------------------
+pipeline {
+    agent any
+
+    stages {
+        stage('Deploy') {
+            when {
+              expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+              }
+            }
+            steps {
+                sh 'make publish'
+            }
+        }
+    }
+}
+------------------------
+
+def username = 'Jenkins'
+echo 'Hello Mr. ${username}'
+echo "I said, Hello Mr. ${username}"
+
+
+pipeline {
+    agent any
+    stages {
+        stage('Example') {
+            steps {
+                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+            }
+        }
+    }
+}
+------------------
+
+
+pipeline {
+    agent any
+    environment { 
+        CC = 'clang'
+    }
+    stages {
+        stage('Example') {
+            environment { 
+                DEBUG_FLAGS = '-g'
+            }
+            steps {
+                sh 'printenv'
+            }
+        }
+    }
+}
+
+
+---------
+Add Docker registery in Pipeline model definition
+
+
+agent {
+    dockerfile {
+        filename 'Dockerfile.build'
+        dir 'build'
+        label 'my-defined-label'
+        registryUrl 'https://myregistry.com/'
+        registryCredentialsId 'myPredefinedCredentialsInJenkins'
+    }
+}
+
+
+asdfghjkasdfgasasdfghj
+
+ENKINS_URL/job/flask-app/build?token=TOKEN_NAME or /buildWithParameters?token=TOKEN_NAME
+
+backend_auth
+branch
