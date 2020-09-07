@@ -16,7 +16,7 @@ class TestHello(unittest.TestCase):
     def test_hello(self):
         rv = self.app.get('/')
         self.assertEqual(rv.status, '200 OK')
-        self.assertEqual(rv.data, os.getenv("BACKEND_AUTH_USR"))
+        self.assertEqual(rv.data, "Hola {x} {y}".format(x=os.getenv("BACKEND_AUTH_USR"), y=os.getenv("branch")))
 
     def test_hello_hello(self):
         rv = self.app.get('/hello/')
