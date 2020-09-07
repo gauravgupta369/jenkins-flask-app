@@ -1,11 +1,12 @@
 pipeline {
-    environment {
-        BACKEND_AUTH = credentials('backend_auth')
-    }
+    
     parameters {
         string(name: 'branch', defaultValue: 'master', description: 'Branch Name')
     }
     agent {
+        environment {
+            BACKEND_AUTH = credentials('backend_auth')
+        }
         docker {
             image 'flask-app'
             args "-e BACKEND_AUTH_USR:$BACKEND_AUTH_USR"
