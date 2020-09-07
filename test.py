@@ -21,7 +21,7 @@ class TestHello(unittest.TestCase):
     def test_hello_hello(self):
         rv = self.app.get('/hello/')
         self.assertEqual(rv.status, '200 OK')
-        self.assertEqual(rv.data, s.getenv("BACKEND_AUTH_PSW"))
+        self.assertEqual(rv.data, os.getenv("BACKEND_AUTH_PSW"))
 
     def test_hello_name(self):
         name = 'Simon'
