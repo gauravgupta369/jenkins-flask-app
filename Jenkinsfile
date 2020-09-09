@@ -19,9 +19,9 @@ pipeline {
     }
     stages {
         stage('test') {
-            when {
-                branch 'master'
-            }
+            // when {
+            //     branch 'master'
+            // }
             steps {
                 sh 'python fabfile.py'
             }
