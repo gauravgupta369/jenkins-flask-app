@@ -18,7 +18,7 @@ To be Learned:
 
 Main1: system of registery repo + local docker prebuild image container.
 Main2: supply params + env to the code.
-
+*/${branch}
 
 docker network create jenkins
 docker volume create jenkins-docker-certs

@@ -8,17 +8,22 @@ pipeline {
     agent {
         docker {
             image 'flask-app'
-            args "-e BACKEND_AUTH_USR:$BACKEND_AUTH"
-            args "-e BACKEND_AUTH_PSW:$BACKEND_AUTH"
+            args "-e BACKEND_AUTH_USR:${env.BACKEND_AUTH_USR}"
+            args "-e BACKEND_AUTH_PSW:${env.BACKEND_AUTH_PSW}"
             args "-e branch:${params.branch}"
+            args "-e ip:${params.ip}"
+            args "-e port:${params.port}"
             // registryUrl 'https://myregistry.com/'
             // registryCredentialsId 'myPredefinedCredentialsInJenkins'
         }
     }
     stages {
         stage('test') {
+            when {
+                branch 'master'
+            }
             steps {
-                sh 'python test.py'
+                sh 'python fabfile.py'
             }
         }
     }
