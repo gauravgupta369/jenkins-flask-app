@@ -6,8 +6,8 @@ pipeline {
         string(name: 'branch', defaultValue: 'master', description: 'Branch Name')
     }
     agent {
-        dockerfile {
-            filename 'Dockerfile'
+        docker {
+            image "flask-app"
             // args "-e BACKEND_AUTH_USR:${env.BACKEND_AUTH_USR}"
             // args "-e BACKEND_AUTH_PSW:${env.BACKEND_AUTH_PSW}"
             args "-e branch:${params.branch}"
