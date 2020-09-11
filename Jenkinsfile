@@ -57,7 +57,9 @@ pipeline {
             }
         }
         stage('Deploy') {
-            sh 'python creds-reader.py'
+            steps {
+                sh 'python creds-reader.py'
+            }
         }
     }
 }
