@@ -1,0 +1,97 @@
+strictness: medium
+test-warnings: true
+doc-warnings: false
+
+
+ignore-paths:
+  - subdomains
+
+ignore-patterns:
+  - (^|/)skip(this)?(/|$)
+
+inherits:
+  - strictness_medium
+
+pylint:
+  disable:
+    - blacklisted-name
+    - missing-docstring
+    - line-too-long
+    - E1103
+    - duplicate-code
+    - too-many-branches
+    - too-many-arguments
+    - too-many-locals
+    - too-many-statements
+    - R0924
+    - unnecessary-pass
+    - unnecessary-lambda
+    - duplicate-key
+    - eval-used
+    - lost-exception
+    - bad-staticmethod-argument
+    - protected-access
+    - signature-differs
+    - lowercase-l-suffix
+    - deprecated-module
+    - global-variable-not-assigned
+    - unused-import
+    - unused-variable
+    - unused-argument
+    - unused-wildcard-import
+    - redefined-builtin
+    - redefine-in-handler
+    - bare-except
+    - logging-not-lazy
+    - bad-format-string-key
+    - anomalous-unicode-escape-in-string
+    - W5101
+    - wrong-import-position
+    - no-else-return
+    - import-error
+    - keyword-arg-before-vararg
+    - return-in-init
+    - arguments-differ
+    - import-outside-toplevel
+    - relative-beyond-top-level
+    - import-self
+
+pyflakes:
+  disable:
+    - F401
+    - F841
+
+frosted:
+  disable:
+    - E101
+    - E307
+    - W101
+
+pep8:
+  disable:
+    - E501
+    - E711
+    - E712
+    - E721
+    - W503
+    - W602
+    - W603
+    - E101
+  enable:
+    - W601
+  options:
+    max-line-length: 120
+
+pyroma:
+  disable:
+    - PYR06
+    - PYR09
+
+pep257:
+  run: false
+
+mccabe:
+  run: false
+
+dodgy:
+  run: false

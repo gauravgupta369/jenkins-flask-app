@@ -1,2 +1,10 @@
 fabric==2.5.0
 python-dotenv==0.14.0
+prospector==1.2.0
+Click==7.0
+Flask==1.0.2
+itsdangerous==1.1.0
+Jinja2==2.10
+MarkupSafe==1.1.0
+Werkzeug==0.14.1
+xmlrunner==1.7.7
