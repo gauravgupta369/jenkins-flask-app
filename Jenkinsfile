@@ -17,8 +17,7 @@ pipeline {
     agent {
         dockerfile {
             filename 'Dockerfile'
-            dir '.'
-            label 'flask-app:latest'
+            label 'flask-app'
             args "--name ${params.container_name}"
             // registryUrl 'https://myregistry.com/'
             // registryCredentialsId 'myPredefinedCredentialsInJenkins'
