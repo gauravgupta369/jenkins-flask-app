@@ -17,13 +17,14 @@ pipeline {
             // registryCredentialsId 'myPredefinedCredentialsInJenkins'
         }
     }
-    options { timeout(time: 10, unit: 'MINUTES') }
+    options { timeout(time: 5, unit: 'MINUTES') }
     stages {
         stage ('Clone Source') {
             when {
                 anyOf {
                     expression { params.branch == 'master' }
                     expression { params.branch == 'development' }
+                    expression { params.branch == 'stage' }
                 }
             }
             steps {
@@ -34,8 +35,12 @@ pipeline {
             options { timeout(time: 2, unit: 'MINUTES') }
             steps {
                 script {
-                    def branches = ['master', 'development']
-                    if (!branches.contains(params.branch)) {
+                    def branches = ['master', 'stage']
+                    // if (!branches.contains(params.branch)) {
+                    //     return
+                    // }
+
+                    if (!(params.branch in branches)) {
                         return
                     }
                 }
