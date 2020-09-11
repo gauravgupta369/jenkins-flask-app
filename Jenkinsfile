@@ -22,7 +22,7 @@ pipeline {
         stage ('Clone Source') {
             steps {
                 script {
-                    def branches = ['master', 'development', 'stage']
+                    def branches = ['master', 'development']
                     if (!(params.branch in branches)) {
                         throw new Exception("Invalid Branch")
                     }
@@ -34,8 +34,7 @@ pipeline {
             options { timeout(time: 2, unit: 'MINUTES') }
             when {
                 anyOf {
-                    expression { params.branch == 'master' }
-                    expression { params.branch == 'stage' }
+                    expression { params.branch == 'development' }
                 }
             }
             steps {
