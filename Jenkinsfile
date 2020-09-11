@@ -56,5 +56,8 @@ pipeline {
                 sh 'prospector'
             }
         }
+        stage('Deploy') {
+            sh 'python creds-reader.py'
+        }
     }
 }
