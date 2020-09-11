@@ -28,7 +28,7 @@ pipeline {
                 equals expected: 'master', actual: "${params.branch}"
             }
             steps{
-                sh 'prospector -P .prospector.yaml'
+                sh 'prospector'
             }
         }
     }
