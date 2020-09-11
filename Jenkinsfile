@@ -7,21 +7,21 @@ pipeline {
         string(name: 'branch', defaultValue: 'master', description: 'Branch Name')
         string(name: 'container_name', defaultValue: 'my-flask-app', description: 'Name of Container')
     }
-    // agent {
-    //     docker {
-    //         image "flask-app"
-    //         args "-e BACKEND_AUTH_USR:${env.BACKEND_AUTH_USR}"
-    //         args "-e BACKEND_AUTH_PSW:${env.BACKEND_AUTH_PSW}"
-    //     }
-    // }
     agent {
-        dockerfile {
-            filename 'Dockerfile'
-            args "--name ${params.container_name}"
-            // registryUrl 'https://myregistry.com/'
-            // registryCredentialsId 'myPredefinedCredentialsInJenkins'
+        docker {
+            image "flask-app"
+            args "-e BACKEND_AUTH_USR:${env.BACKEND_AUTH_USR}"
+            args "-e BACKEND_AUTH_PSW:${env.BACKEND_AUTH_PSW}"
         }
     }
+    // agent {
+    //     dockerfile {
+    //         filename 'Dockerfile'
+    //         args "--name ${params.container_name}"
+    //         // registryUrl 'https://myregistry.com/'
+    //         // registryCredentialsId 'myPredefinedCredentialsInJenkins'
+    //     }
+    // }
 
     stages {
         stage ('Clone Source') {
@@ -55,11 +55,6 @@ pipeline {
             steps{
                 sh 'prospector'
             }
-        }
-    }
-    post {
-        always {
-            sh  "docker rm -f  ${params.container_name}"
         }
     }
 }
