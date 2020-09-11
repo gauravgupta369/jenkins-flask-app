@@ -1,4 +1,5 @@
 pipeline {
+    options { timeout(time: 1, unit: 'MINUTES') }
     // environment {
     //     BACKEND_AUTH = credentials('backend_auth')
     // }
@@ -24,7 +25,6 @@ pipeline {
         }
     }
 
-    options { timeout(time: 5, unit: 'MINUTES') }
     stages {
         stage ('Clone Source') {
             steps {
