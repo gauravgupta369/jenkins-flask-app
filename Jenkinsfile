@@ -18,12 +18,17 @@ pipeline {
         }
     }
     stages {
-        stage('unit test') {
+        stage ('Clone Source') {
+            steps {
+                git branch: "${params.branch}", url: "https://github.com/gauravgupta369/jenkins-flask-app.git/"
+            }
+        }
+        stage('Unit Test') {
             steps {
                 sh 'python test.py'
             }
         }
-        stage('prospector test') {
+        stage('Pospector Test') {
             when {
                 equals expected: 'master', actual: "${params.branch}"
             }
