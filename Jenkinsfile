@@ -1,5 +1,5 @@
 pipeline {
-    options { timeout(time: 1, unit: 'MINUTES') }
+    options { timeout(time: 5, unit: 'MINUTES') }
     environment {
         BACKEND_AUTH = credentials('my-creds-file')
     }
@@ -57,6 +57,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
+                sh "sleep 120"
                 sh 'python creds_reader.py'
             }
         }
