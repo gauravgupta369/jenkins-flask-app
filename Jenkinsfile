@@ -20,30 +20,25 @@ pipeline {
     options { timeout(time: 5, unit: 'MINUTES') }
     stages {
         stage ('Clone Source') {
-            when {
-                anyOf {
-                    expression { params.branch == 'master' }
-                    expression { params.branch == 'development' }
-                    expression { params.branch == 'stage' }
-                }
-            }
             steps {
+                script {
+                    def branches = ['master', 'development', 'stage']
+                    if (!(params.branch in branches)) {
+                        throw new Exception("Invalid Branch")
+                    }
+                }
                 git branch: "${params.branch}", url: "https://github.com/gauravgupta369/jenkins-flask-app.git/"
             }
         }
         stage('Unit Test') {
             options { timeout(time: 2, unit: 'MINUTES') }
-            steps {
-                script {
-                    def branches = ['master', 'stage']
-                    // if (!branches.contains(params.branch)) {
-                    //     return
-                    // }
-
-                    if (!(params.branch in branches)) {
-                        return
-                    }
+            when {
+                anyOf {
+                    expression { params.branch == 'master' }
+                    expression { params.branch == 'stage' }
                 }
+            }
+            steps {
                 sh 'python test.py'
             }
         }
