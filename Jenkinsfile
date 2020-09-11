@@ -2,7 +2,6 @@ pipeline {
     // environment {
     //     BACKEND_AUTH = credentials('backend_auth')
     // }
-    agent none
     parameters {
         string(name: 'branch', defaultValue: 'master', description: 'Branch Name')
     }
