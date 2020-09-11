@@ -20,6 +20,7 @@ Main1: system of registery repo + local docker prebuild image container.
 Main2: supply params + env to the code.
 */${branch}
 
+
 docker network create jenkins
 docker volume create jenkins-docker-certs
 docker volume create jenkins-data
@@ -42,64 +43,10 @@ docker container run --name jenkins-app --rm --detach \
   --volume /Users/gauravgupta369/Public/gaurav/myprojects/jenkins:/home \
   --publish 80:8080 jenkinsci/blueocean
 
-------------------------
-pipeline {
-    agent any
-
-    stages {
-        stage('Deploy') {
-            when {
-              expression {
-                currentBuild.result == null || currentBuild.result == 'SUCCESS'
-              }
-            }
-            steps {
-                sh 'make publish'
-            }
-        }
-    }
-}
-------------------------
-
-def username = 'Jenkins'
-echo 'Hello Mr. ${username}'
-echo "I said, Hello Mr. ${username}"
-
-
-pipeline {
-    agent any
-    stages {
-        stage('Example') {
-            steps {
-                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-            }
-        }
-    }
-}
-------------------
-
-
-pipeline {
-    agent any
-    environment {
-        CC = 'clang'
-    }
-    stages {
-        stage('Example') {
-            environment {
-                DEBUG_FLAGS = '-g'
-            }
-            steps {
-                sh 'printenv'
-            }
-        }
-    }
-}
 
 
 ---------
 Add Docker registery in Pipeline model definition
-
 
 agent {
     dockerfile {

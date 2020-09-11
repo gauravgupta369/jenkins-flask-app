@@ -4,19 +4,26 @@ pipeline {
     // }
     parameters {
         string(name: 'branch', defaultValue: 'master', description: 'Branch Name')
+        string(name: 'container_name', defaultValue: 'my-flask-app', description: 'Name of Container')
     }
+    // agent {
+    //     docker {
+    //         image "flask-app"
+    //         args "-e BACKEND_AUTH_USR:${env.BACKEND_AUTH_USR}"
+    //         args "-e BACKEND_AUTH_PSW:${env.BACKEND_AUTH_PSW}"
+    //     }
+    // }
     agent {
-        docker {
-            image "flask-app"
-            // args "-e BACKEND_AUTH_USR:${env.BACKEND_AUTH_USR}"
-            // args "-e BACKEND_AUTH_PSW:${env.BACKEND_AUTH_PSW}"
-            args "-e branch:${params.branch}"
-            args "-e ip:${params.ip}"
-            args "-e port:${params.port}"
+        dockerfile {
+            filename 'Dockerfile'
+            dir '.'
+            label 'flask-app:latest'
+            args "--name ${params.container_name}"
             // registryUrl 'https://myregistry.com/'
             // registryCredentialsId 'myPredefinedCredentialsInJenkins'
         }
     }
+
     options { timeout(time: 5, unit: 'MINUTES') }
     stages {
         stage ('Clone Source') {
@@ -34,6 +41,7 @@ pipeline {
             options { timeout(time: 2, unit: 'MINUTES') }
             when {
                 anyOf {
+                    expression { params.branch == 'master' || params.branch == 'stage' }
                     expression { params.branch == 'development' }
                 }
             }
@@ -49,6 +57,11 @@ pipeline {
             steps{
                 sh 'prospector'
             }
+        }
+    }
+    post {
+        always {
+            sh  "docker rm -f  ${params.container_name}"
         }
     }
 }
