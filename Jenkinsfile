@@ -1,8 +1,8 @@
 pipeline {
     options { timeout(time: 1, unit: 'MINUTES') }
-    // environment {
-    //     BACKEND_AUTH = credentials('backend_auth')
-    // }
+    environment {
+        BACKEND_AUTH = credentials('my-creds-file')
+    }
     parameters {
         string(name: 'branch', defaultValue: 'master', description: 'Branch Name')
         string(name: 'container_name', defaultValue: 'my-flask-app', description: 'Name of Container')
@@ -10,8 +10,7 @@ pipeline {
     agent {
         docker {
             image "flask-app"
-            args "-e BACKEND_AUTH_USR:${env.BACKEND_AUTH_USR}"
-            args "-e BACKEND_AUTH_PSW:${env.BACKEND_AUTH_PSW}"
+            args "-e BACKEND_AUTH_USR:${env.BACKEND_AUTH}"
         }
     }
     // agent {

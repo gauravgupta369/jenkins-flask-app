@@ -1,3 +1,5 @@
-from creds import HOST_IP
+# from creds import HOST_IP
 
-print(HOST_IP)
+import os
+
+print(os.getenv('BACKEND_AUTH_USR'))
