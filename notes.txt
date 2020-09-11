@@ -50,7 +50,7 @@ pipeline {
         stage('Deploy') {
             when {
               expression {
-                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+                currentBuild.result == null || currentBuild.result == 'SUCCESS'
               }
             }
             steps {
@@ -81,12 +81,12 @@ pipeline {
 
 pipeline {
     agent any
-    environment { 
+    environment {
         CC = 'clang'
     }
     stages {
         stage('Example') {
-            environment { 
+            environment {
                 DEBUG_FLAGS = '-g'
             }
             steps {
