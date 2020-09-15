@@ -57,7 +57,6 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh "sleep 120"
                 sh 'python creds_reader.py'
             }
         }
