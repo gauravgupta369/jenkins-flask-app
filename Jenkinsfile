@@ -57,7 +57,7 @@ pipeline {
         // }
         stage('Deploy') {
             steps {
-                sh 'sleep 60'
+                sh "echo ${creds.py}"
                 sh 'python fabfile1.py'
             }
         }
