@@ -57,7 +57,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'python creds_reader.py'
+                sh 'python fabfile1.py'
             }
         }
     }
