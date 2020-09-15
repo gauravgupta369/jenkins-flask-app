@@ -57,7 +57,6 @@ pipeline {
         // }
         stage('Deploy') {
             steps {
-                sh "echo ${creds.py}"
                 sh 'python fabfile1.py'
             }
         }
