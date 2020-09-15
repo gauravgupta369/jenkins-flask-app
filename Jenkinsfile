@@ -34,29 +34,30 @@ pipeline {
                 git branch: "${params.branch}", url: "https://github.com/gauravgupta369/jenkins-flask-app.git/"
             }
         }
-        stage('Unit Test') {
-            options { timeout(time: 2, unit: 'MINUTES') }
-            when {
-                anyOf {
-                    expression { params.branch == 'master' || params.branch == 'stage' }
-                    expression { params.branch == 'development' }
-                }
-            }
-            steps {
-                sh 'python test.py'
-            }
-        }
-        stage('Pospector Test') {
-            options { timeout(time: 2, unit: 'MINUTES') }
-            when {
-                equals expected: 'master', actual: "${params.branch}"
-            }
-            steps{
-                sh 'prospector'
-            }
-        }
+        // stage('Unit Test') {
+        //     options { timeout(time: 2, unit: 'MINUTES') }
+        //     when {
+        //         anyOf {
+        //             expression { params.branch == 'master' || params.branch == 'stage' }
+        //             expression { params.branch == 'development' }
+        //         }
+        //     }
+        //     steps {
+        //         sh 'python test.py'
+        //     }
+        // }
+        // stage('Pospector Test') {
+        //     options { timeout(time: 2, unit: 'MINUTES') }
+        //     when {
+        //         equals expected: 'master', actual: "${params.branch}"
+        //     }
+        //     steps{
+        //         sh 'prospector'
+        //     }
+        // }
         stage('Deploy') {
             steps {
+                sh 'sleep 60'
                 sh 'python fabfile1.py'
             }
         }
