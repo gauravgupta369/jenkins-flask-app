@@ -12,8 +12,8 @@ pipeline {
     agent {
         docker {
             image "python-flask-app"
-            args "-e ip:${env.ip}"
-            args "-e port${env.port}"
+            args "-e ip:${params.ip}"
+            args "-e port:${params.port}"
             args "-e BACKEND_AUTH_USR:${env.BACKEND_AUTH}"
             args "-e BACKEND_AUTH_PSW:${env.BACKEND_AUTH}"
         }
