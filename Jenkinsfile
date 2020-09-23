@@ -12,6 +12,7 @@ pipeline {
     agent {
         docker {
             image "python-flask-app"
+            args "--name ${params.container_name}"
             args "-e ip:${params.ip}"
             args "-e port:${params.port}"
             args "-e BACKEND_AUTH_USR:${env.BACKEND_AUTH}"
@@ -60,21 +61,21 @@ pipeline {
         //         sh 'prospector'
         //     }
         // }
-        stage('Deploy 1') {
-            options { timeout(time: 1, unit: 'MINUTES') }
-            steps {
-                script{
-                    def inputFile = input message: 'Upload file', parameters: [file(name: "$workspace/creds.py")]
-                }
-                sh 'python fabfile1.py'
-            }
-        }
-
-        // stage('Deploy') {
+        // stage('Deploy 1') {
+        //     options { timeout(time: 1, unit: 'MINUTES') }
         //     steps {
-        //         sh 'python fabfile.py'
+        //         script{
+        //             def inputFile = input message: 'Upload file', parameters: [file(name: "$workspace/creds.py")]
+        //         }
+        //         sh 'python fabfile1.py'
         //     }
         // }
+
+        stage('Deploy') {
+            steps {
+                sh 'python fabfile.py'
+            }
+        }
     }
     post {
         always {
