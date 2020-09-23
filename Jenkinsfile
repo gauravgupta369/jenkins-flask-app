@@ -9,9 +9,21 @@ pipeline {
         string(name: 'ip', defaultValue: '', description: 'IP Address')
         string(name: 'port', defaultValue: '22', description: 'Port')
     }
+    // agent {
+    //     docker {
+    //         image "python-flask-app"
+    //         args "--name ${params.container_name}"
+    //         args "-e ip:${params.ip}"
+    //         args "-e port:${params.port}"
+    //         args "-e BACKEND_AUTH_USR:${env.BACKEND_AUTH}"
+    //         args "-e BACKEND_AUTH_PSW:${env.BACKEND_AUTH}"
+    //     }
+    // }
     agent {
-        docker {
-            image "python-flask-app"
+        dockerfile {
+            // registryUrl 'https://myregistry.com/'
+            // registryCredentialsId 'myPredefinedCredentialsInJenkins'
+            filename 'Dockerfile'
             args "--name ${params.container_name}"
             args "-e ip:${params.ip}"
             args "-e port:${params.port}"
@@ -19,15 +31,6 @@ pipeline {
             args "-e BACKEND_AUTH_PSW:${env.BACKEND_AUTH}"
         }
     }
-    // agent {
-    //     dockerfile {
-    //         filename 'Dockerfile'
-    //         args "--name ${params.container_name}"
-    //         // registryUrl 'https://myregistry.com/'
-    //         // registryCredentialsId 'myPredefinedCredentialsInJenkins'
-    //     }
-    // }
-
     stages {
         stage ('Clone Source') {
             steps {
@@ -40,37 +43,36 @@ pipeline {
                 git branch: "${params.branch}", url: "https://github.com/gauravgupta369/jenkins-flask-app.git/"
             }
         }
-        // stage('Unit Test') {
-        //     options { timeout(time: 2, unit: 'MINUTES') }
-        //     when {
-        //         anyOf {
-        //             expression { params.branch == 'master' || params.branch == 'stage' }
-        //             expression { params.branch == 'development' }
-        //         }
-        //     }
-        //     steps {
-        //         sh 'python test.py'
-        //     }
-        // }
-        // stage('Pospector Test') {
-        //     options { timeout(time: 2, unit: 'MINUTES') }
-        //     when {
-        //         equals expected: 'master', actual: "${params.branch}"
-        //     }
-        //     steps{
-        //         sh 'prospector'
-        //     }
-        // }
-        // stage('Deploy 1') {
-        //     options { timeout(time: 1, unit: 'MINUTES') }
-        //     steps {
-        //         script{
-        //             def inputFile = input message: 'Upload file', parameters: [file(name: "$workspace/creds.py")]
-        //         }
-        //         sh 'python fabfile1.py'
-        //     }
-        // }
-
+        stage('Unit Test') {
+            options { timeout(time: 2, unit: 'MINUTES') }
+            when {
+                anyOf {
+                    expression { params.branch == 'master' || params.branch == 'stage' }
+                    expression { params.branch == 'development' }
+                }
+            }
+            steps {
+                sh 'python test.py'
+            }
+        }
+        stage('Pospector Test') {
+            options { timeout(time: 2, unit: 'MINUTES') }
+            when {
+                equals expected: 'master', actual: "${params.branch}"
+            }
+            steps{
+                sh 'prospector'
+            }
+        }
+        stage('Deploy 1') {
+            options { timeout(time: 1, unit: 'MINUTES') }
+            steps {
+                script{
+                    def inputFile = input message: 'Upload file', parameters: [file(name: "$workspace/creds.py")]
+                }
+                sh 'python fabfile1.py'
+            }
+        }
         stage('Deploy') {
             steps {
                 sh 'python fabfile.py'
