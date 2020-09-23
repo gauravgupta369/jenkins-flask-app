@@ -9,21 +9,9 @@ pipeline {
         string(name: 'ip', defaultValue: '', description: 'IP Address')
         string(name: 'port', defaultValue: '22', description: 'Port')
     }
-    // agent {
-    //     docker {
-    //         image "python-flask-app"
-    //         args "--name ${params.container_name}"
-    //         args "-e ip:${params.ip}"
-    //         args "-e port:${params.port}"
-    //         args "-e BACKEND_AUTH_USR:${env.BACKEND_AUTH}"
-    //         args "-e BACKEND_AUTH_PSW:${env.BACKEND_AUTH}"
-    //     }
-    // }
     agent {
-        dockerfile {
-            // registryUrl 'https://myregistry.com/'
-            // registryCredentialsId 'myPredefinedCredentialsInJenkins'
-            filename 'Dockerfile'
+        docker {
+            image "python-flask-app"
             args "--name ${params.container_name}"
             args "-e ip:${params.ip}"
             args "-e port:${params.port}"
@@ -31,6 +19,18 @@ pipeline {
             args "-e BACKEND_AUTH_PSW:${env.BACKEND_AUTH}"
         }
     }
+    // agent {
+    //     dockerfile {
+    //         // registryUrl 'https://myregistry.com/'
+    //         // registryCredentialsId 'myPredefinedCredentialsInJenkins'
+    //         filename 'Dockerfile'
+    //         args "--name ${params.container_name}"
+    //         args "-e ip:${params.ip}"
+    //         args "-e port:${params.port}"
+    //         args "-e BACKEND_AUTH_USR:${env.BACKEND_AUTH}"
+    //         args "-e BACKEND_AUTH_PSW:${env.BACKEND_AUTH}"
+    //     }
+    // }
     stages {
         stage ('Clone Source') {
             steps {
