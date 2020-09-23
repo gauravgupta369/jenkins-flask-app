@@ -1,16 +1,21 @@
 pipeline {
     options { timeout(time: 5, unit: 'MINUTES') }
     environment {
-        BACKEND_AUTH = credentials('my-creds-file')
+        BACKEND_AUTH = credentials('backend_auth')
     }
     parameters {
         string(name: 'branch', defaultValue: 'master', description: 'Branch Name')
         string(name: 'container_name', defaultValue: 'my-flask-app', description: 'Name of Container')
+        string(name: 'ip', defaultValue: '', description: 'IP Address')
+        string(name: 'port', defaultValue: '22', description: 'Port')
     }
     agent {
         docker {
-            image "flask-app"
+            image "python-flask-app"
+            args "-e ip:${env.ip}"
+            args "-e port${env.port}"
             args "-e BACKEND_AUTH_USR:${env.BACKEND_AUTH}"
+            args "-e BACKEND_AUTH_PSW:${env.BACKEND_AUTH}"
         }
     }
     // agent {
@@ -57,7 +62,7 @@ pipeline {
         // }
         stage('Deploy') {
             steps {
-                sh 'python fabfile1.py'
+                sh 'python fabfile.py'
             }
         }
     }

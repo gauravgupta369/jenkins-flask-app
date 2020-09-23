@@ -5,9 +5,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-username  = os.getenv("BACKEND_AUTH_USR")
 ip = os.getenv("ip")
 port = os.getenv("port")
+username  = os.getenv("BACKEND_AUTH_USR")
 password = os.getenv("BACKEND_AUTH_PSW")
 
 conn = Connection(
