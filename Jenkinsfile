@@ -60,6 +60,15 @@ pipeline {
         //         sh 'prospector'
         //     }
         // }
+        stage('Deploy 1') {
+            steps {
+                script{
+                    def inputFile = input message: 'Upload file', parameters: [file(name: "$workspace/creds.py")]
+                }
+                sh 'python fabfile1.py'
+            }
+        }
+
         stage('Deploy') {
             steps {
                 sh 'python fabfile.py'
