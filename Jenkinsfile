@@ -32,7 +32,7 @@ pipeline {
     //     }
     // }
     stages {
-        stage ('Clone Source') {
+        stage ('Clone Repository') {
             steps {
                 script {
                     def branches = ['master', 'development']
@@ -64,18 +64,18 @@ pipeline {
                 sh 'prospector'
             }
         }
-        stage('Deploy 1') {
+        stage('Sample Deploy SSH') {
+            steps {
+                sh 'python fabfile.py'
+            }
+        }
+        stage('Sample Deploy With File Upload') {
             options { timeout(time: 1, unit: 'MINUTES') }
             steps {
                 script{
                     def inputFile = input message: 'Upload file', parameters: [file(name: "$workspace/creds.py")]
                 }
                 sh 'python fabfile1.py'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                sh 'python fabfile.py'
             }
         }
     }
