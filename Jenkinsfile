@@ -61,8 +61,8 @@ pipeline {
         //     }
         // }
         stage('Deploy 1') {
+            options { timeout(time: 1, unit: 'MINUTES') }
             steps {
-                options { timeout(time: 1, unit: 'MINUTES') }
                 script{
                     def inputFile = input message: 'Upload file', parameters: [file(name: "$workspace/creds.py")]
                 }
