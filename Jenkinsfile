@@ -39,41 +39,42 @@ pipeline {
                 git branch: "${params.branch}", url: "https://github.com/gauravgupta369/jenkins-flask-app.git/"
             }
         }
-        stage('Unit Test') {
-            options { timeout(time: 2, unit: 'MINUTES') }
-            when {
-                anyOf {
-                    expression { params.branch == 'master' || params.branch == 'stage' }
-                    expression { params.branch == 'development' }
-                }
-            }
-            steps {
-                sh 'python test.py'
-            }
-        }
-        stage('Pospector Test') {
-            options { timeout(time: 2, unit: 'MINUTES') }
-            when {
-                equals expected: 'master', actual: "${params.branch}"
-            }
-            steps{
-                sh 'prospector'
-            }
-        }
+        // stage('Unit Test') {
+        //     options { timeout(time: 2, unit: 'MINUTES') }
+        //     when {
+        //         anyOf {
+        //             expression { params.branch == 'master' || params.branch == 'stage' }
+        //             expression { params.branch == 'development' }
+        //         }
+        //     }
+        //     steps {
+        //         sh 'python test.py'
+        //     }
+        // }
+        // stage('Pospector Test') {
+        //     options { timeout(time: 2, unit: 'MINUTES') }
+        //     when {
+        //         equals expected: 'master', actual: "${params.branch}"
+        //     }
+        //     steps{
+        //         sh 'prospector'
+        //     }
+        // }
         stage('Deploy 1') {
             steps {
                 script{
+                    options { timeout(time: 1, unit: 'MINUTES') }
                     def inputFile = input message: 'Upload file', parameters: [file(name: "$workspace/creds.py")]
                 }
                 sh 'python fabfile1.py'
             }
         }
 
-        stage('Deploy') {
-            steps {
-                sh 'python fabfile.py'
-            }
-        }
+        // stage('Deploy') {
+        //     steps {
+        //         sh 'python fabfile.py'
+        //     }
+        // }
     }
     post {
         always {
